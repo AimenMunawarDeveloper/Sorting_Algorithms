@@ -1,4 +1,7 @@
 #include <iostream>
+#include <chrono>
+#include <algorithm>
+#include <vector>
 using namespace std;
 
 // Function to perform bubble sort on array A of size n
@@ -15,7 +18,7 @@ void bubbleSort(int A[], int n) {
                 A[j] = A[j + 1];
                 A[j + 1] = temp;
 
-                swap = swap + 1; // Set swap to 1 indicating a swap occurred
+                swap = 1; // Set swap to 1 indicating a swap occurred
             }
         }
 

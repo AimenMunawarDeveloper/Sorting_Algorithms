@@ -10,27 +10,46 @@
 #include "bucket_sort.cpp"
 using namespace std;
 
+
 int main() {
-    int array[10] = {4, 77, 24, 6, 2, 8, 3, 6, 4, 4};
+    const int minSize = 10;
+    const int maxSize = 10000;
+    const int stepSize = 10;
 
-    cout << "Array before Sorting:\n";
-    for (int i = 0; i < 10; i++) {
-        cout << array[i] << " ";
-    }
-    
-    // // Call the sorting function to sort the array
-    // bubbleSort(array, 10);
-    // selectionSort(array, 10);
-    // insertionSort(array, 10);
-    // quickSort(array, 0,9);
-    // mergeSort(array, 0, 9);
-    // heapSort(array, 10);
-    // countingSort(array, 10, 77);
-    // radixSort(array, 10);
+    for (int s = minSize; s <= maxSize; s += stepSize) {
+        int* array = new int[s];
 
-    cout << "\nArray After Sorting:\n";
-    for (int i = 0; i < 10; i++) {
-        cout << array[i] << " ";
+        // Initialize array with random values
+        for (int i = 0; i < s; i++) {
+            array[i] = rand() % 1000;
+        }
+
+        cout << "Array before Sorting (first 10 elements):\n";
+        for (int i = 0; i < min(s, 10); i++) {
+            cout << array[i] << " ";
+        }
+
+        auto start_time = chrono::high_resolution_clock::now();
+        bubbleSort(array, s);
+        selectionSort(array, s);
+        insertionSort(array, s);
+        quickSort(array, 0, s - 1);
+        mergeSort(array, 0, s - 1);
+        heapSort(array, s);
+        radixSort(array, s);
+
+        auto end_time = chrono::high_resolution_clock::now();
+        auto duration = chrono::duration_cast<chrono::microseconds>(end_time - start_time);
+
+        cout << "\nArray After Sorting (first 10 elements):\n";
+        for (int i = 0; i < min(s, 10); i++) {
+            cout << array[i] << " ";
+        }
+
+        cout << "\nTime taken by Bubble Sort for array size " << s << ": " << duration.count() << " microseconds\n\n";
+
+        delete[] array;
     }
+
     return 0;
 }
