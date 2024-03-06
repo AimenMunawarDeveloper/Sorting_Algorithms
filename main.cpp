@@ -3,6 +3,7 @@
 #include "bubble_sort.cpp"
 #include "insertion_sort.cpp"
 #include "quick_sort.cpp"
+#include "merge_sort.cpp"
 using namespace std;
 
 int main() {
@@ -17,6 +18,7 @@ int main() {
     selectionSort(array, 10);
     insertionSort(array, 10);
     quickSort(array, 0,9);
+    mergeSort(array, 0, 9);
 
     cout << "\nArray After Sorting:\n";
     for (int i = 0; i < 10; i++) {
