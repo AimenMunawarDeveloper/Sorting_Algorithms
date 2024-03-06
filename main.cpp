@@ -1,6 +1,7 @@
 #include <iostream>
 #include "selection_sort.cpp"
 #include "bubble_sort.cpp"
+#include "insertion_sort.cpp"
 using namespace std;
 
 int main() {
@@ -13,6 +14,7 @@ int main() {
     // Call the sorting function to sort the array
     bubbleSort(array, 10);
     selectionSort(array, 10);
+    insertionSort(array, 10);
 
     cout << "\nArray After Sorting:\n";
     for (int i = 0; i < 10; i++) {
