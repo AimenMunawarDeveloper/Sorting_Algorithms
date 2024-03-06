@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/4th Semester Work/Design & Analysis of Algorithm/Assignments/Aimen-Munawar-assignment-1/code_files",
-      "program": "d:/4th Semester Work/Design & Analysis of Algorithm/Assignments/Aimen-Munawar-assignment-1/code_files/build/Debug/outDebug",
+      "cwd": "c:/Users/Lenovo/Desktop/Microsoft Learn Student Ambassador/Techincal_Onboarding_Code/Sorting_Algorithms",
+      "program": "c:/Users/Lenovo/Desktop/Microsoft Learn Student Ambassador/Techincal_Onboarding_Code/Sorting_Algorithms/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
