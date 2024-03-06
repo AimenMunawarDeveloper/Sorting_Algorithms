@@ -7,6 +7,7 @@
 #include "heap_sort.cpp"
 #include "counting_sort.cpp"
 #include "radix_sort.cpp"
+#include "bucket_sort.cpp"
 using namespace std;
 
 int main() {
@@ -17,15 +18,15 @@ int main() {
         cout << array[i] << " ";
     }
     
-    // Call the sorting function to sort the array
-    bubbleSort(array, 10);
-    selectionSort(array, 10);
-    insertionSort(array, 10);
-    quickSort(array, 0,9);
-    mergeSort(array, 0, 9);
-    heapSort(array, 10);
-    countingSort(array, 10, 77);
-    radixSort(array, 10);
+    // // Call the sorting function to sort the array
+    // bubbleSort(array, 10);
+    // selectionSort(array, 10);
+    // insertionSort(array, 10);
+    // quickSort(array, 0,9);
+    // mergeSort(array, 0, 9);
+    // heapSort(array, 10);
+    // countingSort(array, 10, 77);
+    // radixSort(array, 10);
 
     cout << "\nArray After Sorting:\n";
     for (int i = 0; i < 10; i++) {
