@@ -1,5 +1,6 @@
 #include<iostream>
 #include<climits> // Include this header for INT_MAX
+#include<cmath> 
 using namespace std;
 
 // Merge function to merge two sorted subarrays A[p..q] and A[q+1..r]
@@ -39,7 +40,7 @@ void merge(int A[], int p, int q, int r) {
 // MergeSort function to recursively sort the array A[p..r]
 void mergeSort(int A[], int p, int r) {
     if (p < r) {
-        int q = (p + r) / 2; // Calculate the midpoint of the array
+        int q = floor((p + r) / 2); // Calculate the midpoint of the array
 
         // Recursively sort the two halves
         mergeSort(A, p, q);
