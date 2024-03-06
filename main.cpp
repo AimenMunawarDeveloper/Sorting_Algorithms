@@ -5,6 +5,7 @@
 #include "quick_sort.cpp"
 #include "merge_sort.cpp"
 #include "heap_sort.cpp"
+#include "counting_sort.cpp"
 using namespace std;
 
 int main() {
@@ -22,6 +23,7 @@ int main() {
     quickSort(array, 0,9);
     mergeSort(array, 0, 9);
     heapSort(array, 10);
+    countingSort(array, 10, 77);
 
     cout << "\nArray After Sorting:\n";
     for (int i = 0; i < 10; i++) {
