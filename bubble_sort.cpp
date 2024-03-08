@@ -28,3 +28,47 @@ void bubbleSort(int A[], int n) {
         }
     }
 }
+
+int main() {
+    // Array sizes to test
+    const int sizes[] = {10, 100, 1000, 10000};
+
+    // Number of repetitions for each array size
+    const int repetitions = 100;
+
+    // Loop through the array sizes
+    for (int i = 0; i < 4; i++) {
+        // Create a dynamic array of the current size
+        int* array = new int[sizes[i]];
+
+        // Initialize array with random values
+        for (int j = 0; j < sizes[i]; j++) {
+            array[j] = rand() % 1000;
+        }
+
+        // Measure the time taken by Bubble Sort (averaged over repetitions)
+        auto total_duration = chrono::microseconds(0);
+        for (int rep = 0; rep < repetitions; rep++) {
+            // Create a copy of the original array for each repetition
+            int* tempArray = new int[sizes[i]];
+            copy(array, array + sizes[i], tempArray);
+
+            auto start_time = chrono::high_resolution_clock::now();
+            bubbleSort(tempArray, sizes[i]);
+            auto end_time = chrono::high_resolution_clock::now();
+            total_duration += chrono::duration_cast<chrono::microseconds>(end_time - start_time);
+
+            // Release memory allocated for the temporary array
+            delete[] tempArray;
+        }
+
+        // Print the time taken by Bubble Sort for the current array size (averaged over repetitions)
+        cout << "Average time taken by Bubble Sort for array size " << sizes[i] << ": "
+             << total_duration.count() / repetitions << " microseconds\n";
+
+        // Release memory allocated for the original array
+        delete[] array;
+    }
+
+    return 0;
+}

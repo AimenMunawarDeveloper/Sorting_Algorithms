@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <chrono>
 using namespace std;
 
 // Function to get the index of the left child of node i in a heap
@@ -39,7 +40,7 @@ void max_heapify(int A[], int i, int n) {
 
 // Function to build a max heap from an array
 void build_max_heap(int A[], int n) {
-    for (int i = floor(n/2) - 1; i >= 0; i--) { // Adjusted loop condition
+    for (int i = floor(n / 2) - 1; i >= 0; i--) { // Adjusted loop condition
         max_heapify(A, i, n);
     }
 }
@@ -57,4 +58,47 @@ void heapSort(int A[], int n) {
         // Re-heapify the reduced heap (exclude the last element)
         max_heapify(A, 0, i);
     }
+}
+
+int main() {
+    // Array sizes to test
+    const int sizes[] = {10, 100, 1000, 10000};
+
+    // Number of repetitions for each array size
+    const int repetitions = 100;
+
+    // Loop through the array sizes
+    for (int i = 0; i < 4; i++) {
+        // Initialize total duration for averaging
+        auto total_duration = chrono::microseconds(0);
+
+        // Perform repetitions
+        for (int rep = 0; rep < repetitions; rep++) {
+            // Create a dynamic array of the current size
+            int* array = new int[sizes[i]];
+
+            // Initialize array with random values
+            for (int j = 0; j < sizes[i]; j++) {
+                array[j] = rand() % 1000;
+            }
+
+            // Measure the time taken by heap Sort
+            auto start_time = chrono::high_resolution_clock::now();
+            heapSort(array, sizes[i]);
+            auto end_time = chrono::high_resolution_clock::now();
+            total_duration += chrono::duration_cast<chrono::microseconds>(end_time - start_time);
+
+            // Release memory allocated for the array
+            delete[] array;
+        }
+
+        // Calculate the average time taken by Heap Sort for the current array size
+        auto average_duration = total_duration.count() / repetitions;
+
+        // Print the results
+        cout << "Average time taken by Heap Sort for array size " << sizes[i] << ": "
+             << average_duration << " microseconds\n\n";
+    }
+
+    return 0;
 }

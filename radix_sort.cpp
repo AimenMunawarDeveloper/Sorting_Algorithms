@@ -1,4 +1,5 @@
 #include<iostream>
+#include<chrono>
 using namespace std;
 
 // Function to find the maximum element in the array
@@ -48,4 +49,47 @@ void radixSort(int A[], int n) {
     for (int pos = 1; max / pos > 0; pos *= 10) {
         countSort(A, n, pos);
     }
+}
+
+int main() {
+    // Array sizes to test
+    const int sizes[] = {10, 100, 1000, 10000};
+
+    // Number of repetitions for each array size
+    const int repetitions = 100;
+
+    // Loop through the array sizes
+    for (int i = 0; i < 4; i++) {
+        // Initialize total duration for averaging
+        auto total_duration = chrono::microseconds(0);
+
+        // Perform repetitions
+        for (int rep = 0; rep < repetitions; rep++) {
+            // Create a dynamic array of the current size
+            int* array = new int[sizes[i]];
+
+            // Initialize array with random values
+            for (int j = 0; j < sizes[i]; j++) {
+                array[j] = rand() % 1000;
+            }
+
+            // Measure the time taken by Radix Sort
+            auto start_time = chrono::high_resolution_clock::now();
+            radixSort(array, sizes[i]);
+            auto end_time = chrono::high_resolution_clock::now();
+            total_duration += chrono::duration_cast<chrono::microseconds>(end_time - start_time);
+
+            // Release memory allocated for the array
+            delete[] array;
+        }
+
+        // Calculate the average time taken by Radix Sort for the current array size
+        auto average_duration = total_duration.count() / repetitions;
+
+        // Print the results
+        cout << "Average time taken by Radix Sort for array size " << sizes[i] << ": "
+             << average_duration << " microseconds\n\n";
+    }
+
+    return 0;
 }

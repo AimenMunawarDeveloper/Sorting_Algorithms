@@ -1,40 +1,12 @@
 #include<iostream>
 #include<climits> // Include this header for INT_MAX
-#include<cmath> 
+#include<cmath>
+#include<chrono>
 using namespace std;
 
 // Merge function to merge two sorted subarrays A[p..q] and A[q+1..r]
 void merge(int A[], int p, int q, int r) {
-    // Calculate the sizes of the two subarrays
-    int n1 = q - p + 1;
-    int n2 = r - q;
-
-    // Create temporary arrays to hold the two subarrays
-    int L[n1 + 1], R[n2 + 1];
-
-    // Copy data to temporary arrays L[] and R[]
-    for (int i = 0; i < n1; i++) {
-        L[i] = A[p + i];
-    }
-    for (int j = 0; j < n2; j++) {
-        R[j] = A[q + j + 1];
-    }
-
-    // Set the sentinels at the end of each array
-    L[n1] = INT_MAX;
-    R[n2] = INT_MAX;
-
-    // Merge the two sorted subarrays back into the original array A[p..r]
-    int i = 0, j = 0;
-    for (int k = p; k <= r; k++) {
-        if (L[i] <= R[j]) {
-            A[k] = L[i];
-            i++;
-        } else {
-            A[k] = R[j];
-            j++;
-        }
-    }
+    // ... (same as your original merge function)
 }
 
 // MergeSort function to recursively sort the array A[p..r]
@@ -49,4 +21,47 @@ void mergeSort(int A[], int p, int r) {
         // Merge the sorted halves
         merge(A, p, q, r);
     }
+}
+
+int main() {
+    // Array sizes to test
+    const int sizes[] = {10, 100, 1000, 10000};
+
+    // Number of repetitions for each array size
+    const int repetitions = 100;
+
+    // Loop through the array sizes
+    for (int i = 0; i < 4; i++) {
+        // Initialize total duration for averaging
+        auto total_duration = chrono::microseconds(0);
+
+        // Perform repetitions
+        for (int rep = 0; rep < repetitions; rep++) {
+            // Create a dynamic array of the current size
+            int* array = new int[sizes[i]];
+
+            // Initialize array with random values
+            for (int j = 0; j < sizes[i]; j++) {
+                array[j] = rand() % 1000;
+            }
+
+            // Measure the time taken by merge Sort
+            auto start_time = chrono::high_resolution_clock::now();
+            mergeSort(array, 0, sizes[i] - 1);
+            auto end_time = chrono::high_resolution_clock::now();
+            total_duration += chrono::duration_cast<chrono::microseconds>(end_time - start_time);
+
+            // Release memory allocated for the array
+            delete[] array;
+        }
+
+        // Calculate the average time taken by Merge Sort for the current array size
+        auto average_duration = total_duration.count() / repetitions;
+
+        // Print the results
+        cout << "Average time taken by Merge Sort for array size " << sizes[i] << ": "
+             << average_duration << " microseconds\n\n";
+    }
+
+    return 0;
 }

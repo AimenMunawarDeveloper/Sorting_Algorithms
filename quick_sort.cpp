@@ -1,4 +1,5 @@
 #include<iostream>
+#include<chrono>
 using namespace std;
 
 // Function to partition the array A[p..r] and return the pivot index
@@ -41,4 +42,46 @@ void quickSort(int A[], int p, int r) {
         quickSort(A, p, q - 1);
         quickSort(A, q + 1, r);
     }
+}
+int main() {
+    // Array sizes to test
+    const int sizes[] = {10, 100, 1000, 10000};
+
+    // Number of repetitions for each array size
+    const int repetitions = 100;
+
+    // Loop through the array sizes
+    for (int i = 0; i < 4; i++) {
+        // Initialize total duration for averaging
+        auto total_duration = chrono::microseconds(0);
+
+        // Perform repetitions
+        for (int rep = 0; rep < repetitions; rep++) {
+            // Create a dynamic array of the current size
+            int* array = new int[sizes[i]];
+
+            // Initialize array with random values
+            for (int j = 0; j < sizes[i]; j++) {
+                array[j] = rand() % 1000;
+            }
+
+            // Measure the time taken by QuickSort
+            auto start_time = chrono::high_resolution_clock::now();
+            quickSort(array, 0, sizes[i] - 1);
+            auto end_time = chrono::high_resolution_clock::now();
+            total_duration += chrono::duration_cast<chrono::microseconds>(end_time - start_time);
+
+            // Release memory allocated for the array
+            delete[] array;
+        }
+
+        // Calculate the average time taken by QuickSort for the current array size
+        auto average_duration = total_duration.count() / repetitions;
+
+        // Print the results
+        cout << "Average time taken by QuickSort for array size " << sizes[i] << ": "
+             << average_duration << " microseconds\n\n";
+    }
+
+    return 0;
 }

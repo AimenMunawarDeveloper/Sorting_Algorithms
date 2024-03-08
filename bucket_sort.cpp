@@ -1,10 +1,11 @@
 #include<iostream>
 #include<vector>
 #include<algorithm>
+#include<chrono>
 
 using namespace std;
 
-// Bucket Sort algorithm for sorting an array of floating-point numbers
+// Bucket Sort algorithm for sorting an array of floating-point numbers in the range [0,1)
 void bucketSort(float A[], int n) {
     // Create an array of vectors to represent buckets
     vector<float> bucket[n];
@@ -13,7 +14,7 @@ void bucketSort(float A[], int n) {
     for (int i = 0; i < n; i++) {
         // Calculate the index of the bucket for the current element
         int bucketIndex = A[i] * n;
-        
+
         // Add the element to the corresponding bucket
         bucket[bucketIndex].push_back(A[i]);
     }
@@ -33,23 +34,44 @@ void bucketSort(float A[], int n) {
 }
 
 int main() {
-    // Example array of floating-point numbers
-    float array[] = {0.42, 0.32, 0.33, 0.52, 0.37, 0.47, 0.51};
-    int n = sizeof(array) / sizeof(array[0]);
-    
-    // Display the unsorted array
-    cout << "Array before Sorting:\n";
-    for (int i = 0; i < n; i++) {
-        cout << array[i] << " ";
-    }
+    // Array sizes to test
+    const int sizes[] = {10, 100, 1000, 10000};
 
-    // Call the bucketSort function to sort the array
-    bucketSort(array, n);
+    // Number of repetitions for each array size
+    const int repetitions = 100;
 
-    // Display the sorted array
-    cout << "\nArray After Sorting:\n";
-    for (int i = 0; i < n; i++) {
-        cout << array[i] << " ";
+    // Loop through the array sizes
+    for (int i = 0; i < 4; i++) {
+        // Create a dynamic array of the current size
+        float* array = new float[sizes[i]];
+
+        // Initialize array with random values in the range [0,1)
+        for (int j = 0; j < sizes[i]; j++) {
+            array[j] = static_cast<float>(rand()) / RAND_MAX;
+        }
+
+        // Measure the time taken by Bucket Sort (averaged over repetitions)
+        auto total_duration = chrono::microseconds(0);
+        for (int rep = 0; rep < repetitions; rep++) {
+            // Create a copy of the original array for each repetition
+            float* tempArray = new float[sizes[i]];
+            copy(array, array + sizes[i], tempArray);
+
+            auto start_time = chrono::high_resolution_clock::now();
+            bucketSort(tempArray, sizes[i]);
+            auto end_time = chrono::high_resolution_clock::now();
+            total_duration += chrono::duration_cast<chrono::microseconds>(end_time - start_time);
+
+            // Release memory allocated for the temporary array
+            delete[] tempArray;
+        }
+
+        // Print the time taken by Bucket Sort for the current array size (averaged over repetitions)
+        cout << "Average time taken by Bucket Sort for array size " << sizes[i] << ": "
+             << total_duration.count() / repetitions << " microseconds\n";
+
+        // Release memory allocated for the original array
+        delete[] array;
     }
 
     return 0;
